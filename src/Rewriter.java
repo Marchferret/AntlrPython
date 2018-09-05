@@ -200,10 +200,13 @@ public class Rewriter extends PythonBaseListener{
                         if (firstSuiteParent == null && exprlistTokensAsString.contains(testListTokens.get(i).getText())) {
                             ssa = globalIdsMap.get(id).get(parentSuitePointerMap.get(id) - 1);
                         } else {
-                            if (i + 1 < testListTokens.size() && testListTokens.get(i + 1).getText().equals("=") &&
-                                    parentSuitePointerMap.get(id) == -1 ) {
+                            //temp fix for key worded parameter!!!!
+                            if (i + 2 < testListTokens.size() && i - 1 >= 0 && testListTokens.get(i + 1).getText().equals("=")
+                                    && tokenTable[testListTokens.get(i + 2).getType()].equals("NAME")
+                                    && (testListTokens.get(i - 1).getText().equals(",") || testListTokens.get(i - 1).getText().equals("("))) {
                                 ssa = testListTokens.get(i).getText();
                             } else {
+//
                                 ssa = globalIdsMap.get(id).get(parentSuitePointerMap.get(id));
                             }
                         }

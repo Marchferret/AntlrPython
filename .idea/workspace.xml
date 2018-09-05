@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="aeca5873-34c9-4bbd-945f-d2cb333e7250" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/input.py" beforeDir="false" afterPath="$PROJECT_DIR$/input.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out.py" beforeDir="false" afterPath="$PROJECT_DIR$/out.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PythonParser/Rewriter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PythonParser/Rewriter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Rewriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Rewriter.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -22,30 +20,31 @@
     <session id="1255748105">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="5" />
+          <entry key="project.closed" value="6" />
           <entry key="project.open.time.5" value="1" />
-          <entry key="project.open.time.6" value="3" />
+          <entry key="project.open.time.6" value="4" />
           <entry key="project.open.time.7" value="1" />
-          <entry key="project.opened" value="5" />
+          <entry key="project.opened" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="g4" value="1" />
           <entry key="java" value="1" />
-          <entry key="py" value="1" />
+          <entry key="py" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="JAVA" value="1" />
           <entry key="PLAIN_TEXT" value="2" />
+          <entry key="Python" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts" />
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="970" />
+          <entry key="JAVA" value="972" />
           <entry key="PLAIN_TEXT" value="5" />
           <entry key="Python" value="125" />
         </counts>
@@ -53,7 +52,7 @@
       <usages-collector id="statistics.spring.boot.mvc.usages" />
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="970" />
+          <entry key="java" value="972" />
           <entry key="py" value="130" />
         </counts>
       </usages-collector>
@@ -65,11 +64,26 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/out.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="646">
-              <caret line="38" column="63" selection-start-line="38" selection-start-column="60" selection-end-line="38" selection-end-column="63" />
+            <state relative-caret-position="1955">
+              <caret line="115" column="18" selection-start-line="115" selection-start-column="12" selection-end-line="115" selection-end-column="18" />
+              <folding>
+                <element signature="e#0#17#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Sample inputs/base_tasks.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+              <folding>
+                <element signature="e#0#16#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -77,8 +91,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/input.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="21" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+            <state relative-caret-position="536">
+              <caret line="73" column="19" selection-start-line="73" selection-start-column="19" selection-end-line="73" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -86,7 +100,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Sample inputs/sympyMatrics.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="155">
+            <state relative-caret-position="69326">
               <caret line="4109" column="35" selection-start-line="4109" selection-start-column="35" selection-end-line="4109" selection-end-column="35" />
             </state>
           </provider>
@@ -95,7 +109,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Driver.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="586">
+            <state relative-caret-position="629">
               <caret line="47" column="105" selection-start-line="47" selection-start-column="105" selection-end-line="47" selection-end-column="105" />
             </state>
           </provider>
@@ -105,7 +119,7 @@
         <entry file="file://$PROJECT_DIR$/src/Converter.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="422">
-              <caret line="824" lean-forward="true" selection-start-line="824" selection-end-line="824" />
+              <caret line="824" selection-start-line="824" selection-end-line="824" />
             </state>
           </provider>
         </entry>
@@ -113,8 +127,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Rewriter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="451">
-              <caret line="1436" column="63" selection-start-line="1436" selection-start-column="63" selection-end-line="1436" selection-end-column="63" />
+            <state relative-caret-position="365">
+              <caret line="208" column="2" selection-start-line="208" selection-start-column="2" selection-end-line="208" selection-end-column="2" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -143,8 +157,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>exite</find>
-      <find>x</find>
       <find>exitreturn</find>
       <find>addLam</find>
       <find>lambda</find>
@@ -159,7 +171,6 @@
       <find>exitIf</find>
       <find>exit</find>
       <find>enterFor</find>
-      <find>exittestlist</find>
       <find>exitexpr</find>
       <find>exitwhile</find>
       <find>getTempSSAPointerMap</find>
@@ -171,8 +182,11 @@
       <find>exitSuite</find>
       <find>exitTest</find>
       <find>exprlist</find>
-      <find>testlist</find>
       <find>exitFor</find>
+      <find>exitExpr</find>
+      <find>testlist</find>
+      <find>exitTestlist</find>
+      <find>exittestlist</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -198,9 +212,9 @@
         <option value="$PROJECT_DIR$/src/Converter.java" />
         <option value="$PROJECT_DIR$/out.py" />
         <option value="$PROJECT_DIR$/out.py" />
+        <option value="$PROJECT_DIR$/input.py" />
+        <option value="$PROJECT_DIR$/input.py" />
         <option value="$PROJECT_DIR$/src/Rewriter.java" />
-        <option value="$PROJECT_DIR$/input.py" />
-        <option value="$PROJECT_DIR$/input.py" />
       </list>
     </option>
   </component>
@@ -237,8 +251,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -264,7 +277,8 @@
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView" />
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -471,11 +485,12 @@
       <workItem from="1535995141304" duration="81000" />
       <workItem from="1535995318749" duration="8065000" />
       <workItem from="1536169017640" duration="4127000" />
+      <workItem from="1536173881677" duration="890000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17390000" />
+    <option name="totallyTimeSpent" value="18280000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -490,7 +505,7 @@
     <frame x="0" y="22" width="1920" height="1006" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12779553" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12886049" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="3" />
@@ -647,13 +662,6 @@
       </provider>
     </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_151/src.zip!/java/util/ArrayList.java" />
-    <entry file="file://$PROJECT_DIR$/Sample inputs/base_tasks.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1656">
-          <caret line="73" column="19" selection-end-line="73" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Sample inputs/function0.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2328">
@@ -717,24 +725,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Converter.java">
+    <entry file="file://$PROJECT_DIR$/Sample inputs/sympyMatrics.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="422">
-          <caret line="824" lean-forward="true" selection-start-line="824" selection-end-line="824" />
+        <state relative-caret-position="69326">
+          <caret line="4109" column="35" selection-start-line="4109" selection-start-column="35" selection-end-line="4109" selection-end-column="35" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Driver.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="586">
+        <state relative-caret-position="629">
           <caret line="47" column="105" selection-start-line="47" selection-start-column="105" selection-end-line="47" selection-end-column="105" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Sample inputs/sympyMatrics.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="155">
-          <caret line="4109" column="35" selection-start-line="4109" selection-start-column="35" selection-end-line="4109" selection-end-column="35" />
         </state>
       </provider>
     </entry>
@@ -745,27 +746,47 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Converter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="422">
+          <caret line="824" selection-start-line="824" selection-end-line="824" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/input.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="536">
+          <caret line="73" column="19" selection-start-line="73" selection-start-column="19" selection-end-line="73" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Rewriter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="451">
-          <caret line="1436" column="63" selection-start-line="1436" selection-start-column="63" selection-end-line="1436" selection-end-column="63" />
+        <state relative-caret-position="365">
+          <caret line="208" column="2" selection-start-line="208" selection-start-column="2" selection-end-line="208" selection-end-column="2" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/input.py">
+    <entry file="file://$PROJECT_DIR$/out.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="21" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+        <state relative-caret-position="1955">
+          <caret line="115" column="18" selection-start-line="115" selection-start-column="12" selection-end-line="115" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#17#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/out.py">
+    <entry file="file://$PROJECT_DIR$/Sample inputs/base_tasks.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="38" column="63" selection-start-line="38" selection-start-column="60" selection-end-line="38" selection-end-column="63" />
+        <state relative-caret-position="85">
+          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+          <folding>
+            <element signature="e#0#16#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
