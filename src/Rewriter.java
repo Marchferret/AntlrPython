@@ -26,6 +26,7 @@ public class Rewriter extends PythonBaseListener{
         }
     }
     ParseTreeProperty<HashMap<String, ArrayList<String>>> idMap;
+    ParseTreeProperty<Set<String>> loopRulePredNames;
     public ParseTreeProperty<ArrayList<ArrayList<String>>> comp_forMap;
     ParseTreeProperty<ArrayList<Token>> ruleTokens;
     HashMap<String, ArrayList<String>> globalIdsMap;
@@ -57,6 +58,7 @@ public class Rewriter extends PythonBaseListener{
         this.idMap = idMap;
         this.predHolder = new ArrayList<>();
         ruleTokens = new ParseTreeProperty<>();
+        loopRulePredNames = new ParseTreeProperty<>();
         tempSSAPointerMap = new ParseTreeProperty<>();
         this.globalIdsMap = globalIdsMap;
         tabCount = 0;
@@ -117,6 +119,13 @@ public class Rewriter extends PythonBaseListener{
         return idMap.get(node);
     }
 
+    //Sep 3 added: storing pred name map to while node
+    private void setLoopRulePredNameMap(ParseTree node, Set<String> set) {
+        loopRulePredNames.put(node, set);
+    }
+    private Set<String> getLoopRulePredNameMap(ParseTree node) {
+        return loopRulePredNames.get(node);
+    }
 
     public void enterSmall_stmt(PythonParser.Small_stmtContext ctx) {
         setRuleTokens(ctx, new ArrayList<>());
@@ -181,6 +190,7 @@ public class Rewriter extends PythonBaseListener{
             }
             String testList = "";
             ArrayList<Token> testListTokens = getRuleTokens(ctx);
+            Set<String> loopPredNames = getLoopRulePredNameMap(ctx.getParent());
             for (int i = 0; i< testListTokens.size(); i++) {
                 if (tokenTable[testListTokens.get(i).getType()].equals("NAME") &&
                         ((i == 0)|| (i > 0 && !tokenTable[testListTokens.get(i - 1).getType()].equals("DOT")))) {
@@ -201,6 +211,7 @@ public class Rewriter extends PythonBaseListener{
                             ssa = ssa.substring(0, ssa.indexOf('?'));
                         }
                         testList += ssa;
+                        loopPredNames.add(ssa);
                         continue;
                     }
                 }
@@ -948,7 +959,6 @@ public class Rewriter extends PythonBaseListener{
     public void enterSuite(PythonParser.SuiteContext ctx) throws IOException {
         //get snapshot from parent if OR while
         HashMap<String, Integer> pointerMap = getTempSSAPointerMap(ctx.getParent());
-        System.out.println(pointerMap+ ctx.getText());
         setTempSSAPointerMap(ctx, new HashMap<>(pointerMap));
 
         HashMap<String, Integer> suitetempSSAPointerMap = getTempSSAPointerMap(ctx);
@@ -1021,6 +1031,7 @@ public class Rewriter extends PythonBaseListener{
 
                     String idInLoop = phiIdLine.substring(phiIdLine.indexOf(',') + 1, phiIdLine.lastIndexOf(')'));
                     causalList.add(idInLoop);
+                    causalList.addAll(getLoopRulePredNameMap(ctx.getParent()));
                     String phiEntryId = phiIdLine.substring(0, phiIdLine.indexOf('?'));
                     phiIdLine = phiIdLine.substring(0, phiIdLine.indexOf('?')) + " = " + phiHolder.peek() + ".phiEntry(" +
                             idBeforeLoop + phiIdLine.substring(phiIdLine.indexOf(','));
@@ -1365,6 +1376,7 @@ public class Rewriter extends PythonBaseListener{
                 String phiIdLine = lastSsa;
                 String idInLoop = phiIdLine.substring(phiIdLine.indexOf(',') + 1, phiIdLine.lastIndexOf(')'));
                 causalList.add(idInLoop);
+                causalList.addAll(getLoopRulePredNameMap(ctx));
                 String phiExitId = phiIdLine.substring(0, phiIdLine.indexOf('?'));
                 phiIdLine = phiExitId + " = " + phiHolder.peek() + ".phiExit(" +
                         idBeforeLoop + phiIdLine.substring(phiIdLine.indexOf(','));
@@ -1374,7 +1386,7 @@ public class Rewriter extends PythonBaseListener{
                 out.write(phiIdLine + "\n");
                 ssaPointerMap.put(id, ssaPointerMap.get(id) + 1);
                 whileNodePointerMap.put(id, ssaPointerMap.get(id));
-                System.out.println(phiExitId + whileNodePointerMap.get(id) + "..writing up while exit");
+
             }
         }
         phiHolder.pop();
@@ -1422,6 +1434,7 @@ public class Rewriter extends PythonBaseListener{
                 String phiIdLine = lastSsa;
                 String idInLoop = phiIdLine.substring(phiIdLine.indexOf(',') + 1, phiIdLine.lastIndexOf(')'));
                 causalList.add(idInLoop);
+                causalList.addAll(getLoopRulePredNameMap(ctx));
                 String phiExitId = phiIdLine.substring(0, phiIdLine.indexOf('?'));
                 phiIdLine = phiExitId + " = " + phiHolder.peek() + ".phiExit(" +
                         idBeforeLoop + phiIdLine.substring(phiIdLine.indexOf(','));
@@ -1601,7 +1614,9 @@ public class Rewriter extends PythonBaseListener{
 
         }
         if (ctx.getParent() instanceof PythonParser.While_stmtContext) {
+
             String testStr = "";
+            Set<String> loopPredNames = new HashSet<>();
             PythonParser.While_stmtContext whileNode = (PythonParser.While_stmtContext)ctx.getParent();
             HashMap<String, Integer>whileTempPointerMap = getTempSSAPointerMap(whileNode);
             HashMap<String, ArrayList<String>> whileSuiteMap = getNodeIdsMap(whileNode.suite(0));
@@ -1649,19 +1664,88 @@ public class Rewriter extends PythonBaseListener{
                             if (newName.contains("?")) {
                                 newName = newName.substring(0, newName.indexOf('?'));
                             }
+                            loopPredNames.add(newName);
                         } else {
-                            newName = whileSuiteMap.get(oldName).get(0);
 
-                            newName = newName.substring(newName.indexOf('?') + 1);
-                            if (newName.contains("?")) {
-                                newName = newName.substring(0, newName.indexOf('?'));
-                                newName += ")";
+                            String phiIdLine = whileSuiteMap.get(oldName).get(0);
+                            String idInLoop = phiIdLine.substring(phiIdLine.indexOf(',') + 1, phiIdLine.lastIndexOf(')'));
+
+                            String idBeforeLoop = "None";
+                            if (whileTempPointerMap.get(oldName) >= 0) {
+                                idBeforeLoop = globalIdsMap.get(oldName).get(whileTempPointerMap.get(oldName));
                             }
+
+                            if (!idBeforeLoop.equals("None") && !isInScope(ctx, idBeforeLoop)) {
+                                idBeforeLoop = "None";
+                            }
+                            if (idBeforeLoop.contains("?")) {
+                                idBeforeLoop = idBeforeLoop.substring(0, idBeforeLoop.indexOf('?'));
+                            }
+                            if (!idBeforeLoop.equals("None")) {
+                                loopPredNames.add(idBeforeLoop);
+                            }
+                            loopPredNames.add(idInLoop);
+                            newName = "phiLoopTest(" + idBeforeLoop + "," +idInLoop + ")";
                             newName = phiHolder.peek() + "." + newName;
+
+
+
+//                            newName = whileSuiteMap.get(oldName).get(0);
+//
+//                            newName = newName.substring(newName.indexOf('?') + 1);
+//                            if (newName.contains("?")) {
+//                                newName = newName.substring(0, newName.indexOf('?'));
+//                                newName += ")";
+//                            }
+//                            newName = phiHolder.peek() + "." + newName;
                         }
                         testStr += newName;
                         continue;
                     }
+//                    //--------
+//                    if (suiteList.indexOf(ctx) != 1) {
+//                        out.write(phiHolder.peek() + ".set()" + "\n");
+//                    }
+//
+//                    for (String id: suiteMap.keySet()) {
+//                        if (suiteMap.get(id).get(0).contains("phiEntry") && globalIdsMap.containsKey(id)) {
+//                            ArrayList<String> causalList = new ArrayList<>();
+//                            String phiIdLine = suiteMap.get(id).get(0);
+//                            String idBeforeLoop = "None";
+//                            if (suitetempSSAPointerMap.get(id) >= 0) {
+//                                idBeforeLoop = globalIdsMap.get(id).get(suitetempSSAPointerMap.get(id));
+//                            }
+//
+//                            if (!idBeforeLoop.equals("None") && !isInScope(ctx, idBeforeLoop)) {
+//                                idBeforeLoop = "None";
+//                            }
+//                            if (idBeforeLoop.contains("?")) {
+//                                idBeforeLoop = idBeforeLoop.substring(0, idBeforeLoop.indexOf('?'));
+//                            }
+//                            if (!idBeforeLoop.equals("None")) {
+//                                causalList.add(idBeforeLoop);
+//                            }
+//
+//                            String idInLoop = phiIdLine.substring(phiIdLine.indexOf(',') + 1, phiIdLine.lastIndexOf(')'));
+//                            causalList.add(idInLoop);
+//                            causalList.addAll(getLoopRulePredNameMap(ctx.getParent()));
+//                            String phiEntryId = phiIdLine.substring(0, phiIdLine.indexOf('?'));
+//                            phiIdLine = phiIdLine.substring(0, phiIdLine.indexOf('?')) + " = " + phiHolder.peek() + ".phiEntry(" +
+//                                    idBeforeLoop + phiIdLine.substring(phiIdLine.indexOf(','));
+//                            causalMap.put(phiEntryId, causalList);
+//                            addedPhiNames.add(phiEntryId);
+//                            writeTabs();
+//                            out.write(phiIdLine + "\n");
+//                            ssaPointerMap.put(id, ssaPointerMap.get(id)+1);
+//                            //
+//                            suitetempSSAPointerMap.put(id, ssaPointerMap.get(id));
+//
+//                        }
+//                    }
+//
+//
+//
+//                    //---------
                 }
 
                 if (whileTestTokens.get(i).getText().equals("not")) {
@@ -1694,6 +1778,8 @@ public class Rewriter extends PythonBaseListener{
             if (testStr.contains("phiEntry")) {
                 testStr = testStr.replace("phiEntry", "phiLoopTest");
             }
+
+            setLoopRulePredNameMap(ctx.getParent(), loopPredNames);
             testStr += ":";
             out.write(testStr);
             out.write("\n");
@@ -2022,6 +2108,8 @@ public class Rewriter extends PythonBaseListener{
             } else {
                 parentSuitePointerMap = new HashMap<>(ssaPointerMap);
             }
+
+            Set<String> loopPredNames = new HashSet<>();
             String exprList = "";
             ArrayList<Token> exprlistTokens = getRuleTokens(ctx);
             for (int i = 0; i < exprlistTokens.size(); i++) {
@@ -2036,6 +2124,7 @@ public class Rewriter extends PythonBaseListener{
                             ssa = ssa.substring(0, ssa.indexOf('?'));
                         }
                         exprList += ssa;
+                        loopPredNames.add(ssa);
                         ssaPointerMap.put(id, ssaPointerMap.get(id) + 1);
                         forNodePointerMap.put(id, ssaPointerMap.get(id));
                         continue;
@@ -2045,6 +2134,7 @@ public class Rewriter extends PythonBaseListener{
             }
             exprList += " in ";
             out.write(exprList);
+            setLoopRulePredNameMap(ctx.getParent(), loopPredNames);
         }
     }
 
