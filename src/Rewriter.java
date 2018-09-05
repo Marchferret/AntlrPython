@@ -202,7 +202,7 @@ public class Rewriter extends PythonBaseListener{
                         } else {
                             //temp fix for key worded parameter!!!!
                             if (i + 2 < testListTokens.size() && i - 1 >= 0 && testListTokens.get(i + 1).getText().equals("=")
-                                    && tokenTable[testListTokens.get(i + 2).getType()].equals("NAME")
+                                    && isBasicAtomType(testListTokens, i + 2)
                                     && (testListTokens.get(i - 1).getText().equals(",") || testListTokens.get(i - 1).getText().equals("("))) {
                                 ssa = testListTokens.get(i).getText();
                             } else {
@@ -559,9 +559,6 @@ public class Rewriter extends PythonBaseListener{
                             //names in comp_for
                             boolean isComp_forName = false;
                             if (indexOfComp_forList(j, comp_forRanges) != -1) {
-//                                System.out.println(indexOfComp_forList(j, comp_forRanges) + " " + nodeComp_forLists.size() + " " + j);
-                                //ArrayList<String> comp_forList = nodeComp_forLists.get(indexOfComp_forList(j, comp_forRanges));
-                                System.out.println(nodeComp_forLists);
                                 ArrayList<String> comp_forList = getAllQualifiedComp_fors(j, comp_forRanges, nodeComp_forLists);
                                 for (String ssa : comp_forList) {
                                     if (tokens.get(j).getText().equals(ssa.substring(0, ssa.lastIndexOf('_')))) {
@@ -582,7 +579,7 @@ public class Rewriter extends PythonBaseListener{
 
                                 //temp fix for key-worded parameter!!!!
                                 if (j + 2 < tokens.size() && j - 1 >= 0 && tokens.get(j + 1).getText().equals("=")
-                                        && tokenTable[tokens.get(j + 2).getType()].equals("NAME")
+                                        && isBasicAtomType(tokens, j + 2)
                                         && (tokens.get(j - 1).getText().equals(",") || tokens.get(j - 1).getText().equals("("))) {
                                     suboutput += id;
                                     continue;
@@ -714,8 +711,9 @@ public class Rewriter extends PythonBaseListener{
                         }
                         if (globalIdsMap.containsKey(id)) {
                             //temp fix for key worded parameter!!!!
+
                             if (i + 2 < tokens.size() && i - 1 >= 0 && tokens.get(i + 1).getText().equals("=")
-                                    && tokenTable[tokens.get(i + 2).getType()].equals("NAME")
+                                    && isBasicAtomType(tokens, i + 2)
                                     && (tokens.get(i - 1).getText().equals(",") || tokens.get(i - 1).getText().equals("("))) {
                                 output += id;
                                 continue;
@@ -775,6 +773,12 @@ public class Rewriter extends PythonBaseListener{
             out.write(output);
             out.write(" ");
         }
+    }
+
+    private boolean isBasicAtomType(ArrayList<Token> tokens, int i) {
+         String atom = tokenTable[tokens.get(i).getType()];
+         return atom.equals("NAME") || atom.equals("NUMBER") || atom.equals("STRING+") || tokens.get(i).getText().equals("None")
+                 || tokens.get(i).getText().equals("...") || tokens.get(i).getText().equals("True") || tokens.get(i).getText().equals("False");
     }
 
     public void enterTestlist_star_expr(PythonParser.Testlist_star_exprContext ctx) {
@@ -1276,9 +1280,13 @@ public class Rewriter extends PythonBaseListener{
                 String id = tokens.get(i).getText();
                 if (globalIdsMap.containsKey(id) &&
                         ((i == 0)|| (i > 0 && !tokenTable[tokens.get(i - 1).getType()].equals("DOT")))) {
-                    System.out.println(id);
+
                     String ssa;
-                    if (firstSuiteParentPointerMap.get(id) == -1) {
+                    if (i + 2 < tokens.size() && i - 1 >= 0 && tokens.get(i + 1).getText().equals("=")
+                            && isBasicAtomType(tokens, i + 2)
+                            && (tokens.get(i - 1).getText().equals(",") || tokens.get(i - 1).getText().equals("("))) {
+                        ssa = tokens.get(i).getText();
+                    } else if (firstSuiteParentPointerMap.get(id) == -1) {
                         ssa = tokens.get(i).getText();
                     } else {
                         ssa = globalIdsMap.get(id).get(firstSuiteParentPointerMap.get(id));
@@ -1566,8 +1574,9 @@ public class Rewriter extends PythonBaseListener{
 
                     if (globalIdsMap.containsKey(id)) {
                         String ssa;
-                        if (i + 1 < tokens.size() && tokens.get(i + 1).getText().equals("=") &&
-                                firstSuiteParentPointerMap.get(id) == -1 ) {
+                        if (i + 2 < tokens.size() && i - 1 >= 0 && tokens.get(i + 1).getText().equals("=")
+                                && isBasicAtomType(tokens, i + 2)
+                                && (tokens.get(i - 1).getText().equals(",") || tokens.get(i - 1).getText().equals("("))) {
                             ssa = tokens.get(i).getText();
                         } else {
                             ssa = globalIdsMap.get(id).get(firstSuiteParentPointerMap.get(id));
